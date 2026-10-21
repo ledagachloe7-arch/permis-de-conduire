@@ -1,267 +1,449 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Carte de permis - Spécimen</title>
+<meta name="theme-color" content="#00A3E0">
+<title>Consultation de licence de transport — RDC</title>
 
 <style>
+:root {
+  --rdc-blue: #00A3E0;
+  --rdc-red: #CE1021;
+  --rdc-yellow: #F7D116;
+  --ink: #2f414e;
+  --muted: #71808a;
+  --line: #dbe3e8;
+  --page: #f5f7f9;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  padding: 30px;
-  font-family: Arial, sans-serif;
-  background: #edf1f7;
-  color: #17345d;
+  background: var(--page);
+  color: var(--ink);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
-.container {
+.national-colors {
+  height: 4px;
+  background:
+    linear-gradient(145deg, transparent 38%,
+    var(--rdc-yellow) 38% 41%,
+    var(--rdc-red) 41% 59%,
+    var(--rdc-yellow) 59% 62%,
+    transparent 62%),
+    var(--rdc-blue);
+}
+
+.site-header {
+  background: white;
+  border-bottom: 1px solid var(--line);
+  padding: 19px 16px;
+}
+
+.header-inner, main, footer {
   max-width: 850px;
-  margin: auto;
-  text-align: center;
+  margin: 0 auto;
 }
 
-h1 {
-  font-size: 25px;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
 }
 
-.note {
-  color: #a51d2d;
-  font-weight: bold;
-  margin: 20px;
-}
-
-.carte {
+.flag {
+  width: 41px;
+  height: 29px;
+  flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  max-width: 650px;
-  margin: 25px auto;
-  padding: 22px;
-  background: white;
-  border: 2px solid #164a83;
-  border-radius: 16px;
-  box-shadow: 0 8px 25px #0002;
-  text-align: left;
+  border: 1px solid #d7e0e6;
+  background: var(--rdc-blue);
 }
 
-.entete {
-  background: #12315b;
-  color: white;
-  margin: -22px -22px 20px;
-  padding: 18px;
-  text-align: center;
-  border-bottom: 5px solid #f7d116;
+.flag::before {
+  content: "";
+  position: absolute;
+  width: 135%;
+  height: 31%;
+  top: 35%;
+  left: -16%;
+  transform: rotate(-35deg);
+  background: var(--rdc-red);
+  border-top: 2px solid var(--rdc-yellow);
+  border-bottom: 2px solid var(--rdc-yellow);
 }
 
-.entete h2 {
-  margin: 0 0 7px;
-  font-size: 19px;
-}
-
-.entete p {
-  margin: 0;
+.flag::after {
+  content: "★";
+  position: absolute;
+  left: 4px;
+  top: 0;
+  color: var(--rdc-yellow);
   font-size: 12px;
 }
 
-.contenu {
-  display: grid;
-  grid-template-columns: 125px 1fr 100px;
-  gap: 18px;
-  align-items: center;
+.country {
+  color: #477084;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
 }
 
-.photo {
-  height: 150px;
-  background: #e8eef6;
-  border: 1px dashed #9aabc0;
+h1 {
+  margin: 3px 0 0;
+  font-size: clamp(1.13rem, 3.5vw, 1.42rem);
+  font-weight: 500;
+  line-height: 1.3;
+  color: #263c4a;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-top: 4px;
+  font-size: 0.84rem;
+}
+
+main {
+  padding: 25px 14px 27px;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.card-header {
+  border-top: 3px solid var(--rdc-blue);
+  border-bottom: 1px solid var(--line);
+  padding: 17px 21px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 13px;
-  color: #687c95;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.champ {
-  margin-bottom: 15px;
+.card-header h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-.champ small {
+.card-header p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.view-label {
+  color: #527283;
+  background: #f8fbfc;
+  border: 1px solid #dbe8ed;
+  padding: 4px 8px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.content {
+  padding: 21px;
+}
+
+.registration-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+  margin-bottom: 17px;
+}
+
+.field-label {
   display: block;
-  color: #687c95;
-  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 0.73rem;
+  margin-bottom: 3px;
 }
 
-.champ strong {
-  font-size: 15px;
+.registration-value {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #bfcbd2;
+  color: #263d4b;
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
 }
 
-.qr {
-  width: 95px;
-  height: 95px;
+.document-ref {
+  color: #667985;
+  font-size: 0.75rem;
 }
 
-.watermark {
+.section {
+  padding: 16px 0 17px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+h3 {
+  margin: 0 0 12px;
+  color: #476878;
+  font-size: 0.77rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 12px;
+}
+
+.field {
+  min-width: 0;
+}
+
+.field .label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.76rem;
+  margin-bottom: 2px;
+}
+
+.field .value {
+  display: block;
+  color: #344956;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.notice {
+  margin-top: 20px;
+  padding: 12px;
   text-align: center;
-  color: #b42332;
-  font-size: 13px;
-  font-weight: bold;
-  border: 1px solid #b42332;
-  padding: 8px;
-  margin-top: 15px;
+  border: 1px solid #e7c8c8;
+  background: #fff7f7;
+  color: #a12632;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.boutons {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
+.page-note {
+  margin: 10px 2px 0;
+  color: #88949c;
+  font-size: 0.71rem;
 }
 
-button {
-  background: #164a83;
-  color: white;
-  border: 0;
-  border-radius: 8px;
-  padding: 13px 20px;
-  cursor: pointer;
-  font-size: 14px;
+footer {
+  padding: 0 16px 24px;
+  text-align: center;
+  color: #8a959c;
+  font-size: 0.7rem;
 }
 
-button:hover {
-  background: #0b315c;
-}
-
-@media(max-width: 600px) {
-  body {
-    padding: 12px;
+@media (max-width: 540px) {
+  .brand {
+    align-items: flex-start;
   }
 
-  .contenu {
-    grid-template-columns: 85px 1fr;
-    gap: 12px;
+  .card-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 15px 16px;
   }
 
-  .photo {
-    height: 110px;
+  .content {
+    padding: 16px;
   }
 
-  .qr {
-    width: 75px;
-    height: 75px;
+  .grid {
+    grid-template-columns: 1fr;
+    row-gap: 11px;
   }
 
-  .qr-zone {
-    grid-column: 1 / -1;
-    text-align: center;
-  }
-}
-
-@media print {
-  @page {
-    size: A4;
-    margin: 15mm;
-  }
-
-  body {
-    background: white;
-    padding: 0;
-  }
-
-  h1, .note, .boutons {
-    display: none;
-  }
-
-  .carte {
-    box-shadow: none;
-    width: 100%;
-    margin: 20px auto;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
+  .registration-row {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-  <h1>Carte de permis de conduire</h1>
+<div class="national-colors"></div>
 
-  <p class="note">
-    SPÉCIMEN — SANS VALEUR OFFICIELLE
+<header class="site-header">
+  <div class="header-inner brand">
+    <div class="flag"
+         role="img"
+         aria-label="Drapeau de la RDC"></div>
+
+    <div>
+      <div class="country">
+        République démocratique du Congo
+      </div>
+
+      <h1>Consultation de licence de transport</h1>
+
+      <div class="subtitle">
+        Informations relatives à l'activité de transport
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <article class="card">
+
+    <div class="card-header">
+      <div>
+        <h2>Fiche de renseignements de transport</h2>
+        <p>Informations associées au spécimen consulté</p>
+      </div>
+
+      <span class="view-label">Consultation</span>
+    </div>
+
+    <div class="content">
+
+      <div class="registration-row">
+        <div>
+          <span class="field-label">
+            Référence de la licence
+          </span>
+
+          <div class="registration-value">
+            LTP-DEMO-0001
+          </div>
+        </div>
+
+        <div class="document-ref">
+          Réf. document : RDC-DEMO-LTP-001
+        </div>
+      </div>
+
+      <section class="section">
+        <h3>Identification du transporteur</h3>
+
+        <div class="grid">
+          <div class="field">
+            <span class="label">Nom ou raison sociale</span>
+            <span class="value">ENTREPRISE EXEMPLE</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Responsable</span>
+            <span class="value">NOM À RENSEIGNER</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Adresse</span>
+            <span class="value">KINSHASA (exemple)</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Téléphone</span>
+            <span class="value">Non renseigné</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h3>Informations sur la licence</h3>
+
+        <div class="grid">
+          <div class="field">
+            <span class="label">Type de licence</span>
+            <span class="value">Transport de personnes</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Activité autorisée</span>
+            <span class="value">Transport routier (exemple)</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Zone d'exploitation</span>
+            <span class="value">À renseigner</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Date de délivrance</span>
+            <span class="value">Non renseignée</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Date d'expiration</span>
+            <span class="value">Non renseignée</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Statut du document</span>
+            <span class="value">Spécimen de démonstration</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h3>Véhicule associé</h3>
+
+        <div class="grid">
+          <div class="field">
+            <span class="label">Marque et modèle</span>
+            <span class="value">À renseigner</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Immatriculation</span>
+            <span class="value">EXEMPLE-001</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Numéro de châssis</span>
+            <span class="value">CHASSIS-DEMO-001</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Nombre de places</span>
+            <span class="value">À renseigner</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="notice">
+        SPÉCIMEN — SANS VALEUR OFFICIELLE<br>
+        Cette page est une maquette de consultation.
+        Elle ne confirme aucune autorisation administrative.
+      </div>
+
+    </div>
+  </article>
+
+  <p class="page-note">
+    Maquette de présentation · données fictives · aucune connexion à un registre officiel.
   </p>
+</main>
 
-  <div class="carte">
+<footer>
+  Prototype de démonstration — Licence de transport
+</footer>
 
-    <div class="entete">
-      <h2>RÉPUBLIQUE DÉMOCRATIQUE DU CONGO</h2>
-      <p>CARTE DE PERMIS DE CONDUIRE — MODÈLE DE DÉMONSTRATION</p>
-    </div>
-
-    <div class="contenu">
-
-      <div class="photo">
-        PHOTO<br>DU TITULAIRE
-      </div>
-
-      <div class="informations">
-
-        <div class="champ">
-          <small>NOM COMPLET</small>
-          <strong>NOM D'EXEMPLE</strong>
-        </div>
-
-        <div class="champ">
-          <small>NUMÉRO DE RÉFÉRENCE</small>
-          <strong>DEMO-PC-0001</strong>
-        </div>
-
-        <div class="champ">
-          <small>CATÉGORIE</small>
-          <strong>À RENSEIGNER</strong>
-        </div>
-
-        <div class="champ">
-          <small>VALIDITÉ</small>
-          <strong>NON RENSEIGNÉE</strong>
-        </div>
-
-      </div>
-
-      <div class="qr-zone">
-        <a
-          href="https://ledagachloe7-arch.github.io/permis-de-conduire/"
-          target="_blank"
-          rel="noopener">
-          <img
-            class="qr"
-            alt="QR code vers la page de démonstration"
-            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fledagachloe7-arch.github.io%2Fpermis-de-conduire%2F">
-        </a>
-        <small>Scanner pour consulter</small>
-      </div>
-
-    </div>
-
-    <div class="watermark">
-      SPÉCIMEN — CE DOCUMENT N'EST PAS UN PERMIS VALIDE
-    </div>
-
-  </div>
-
-  <div class="boutons">
-    <button onclick="window.print()">
-      Imprimer / Enregistrer en PDF
-    </button>
-    <button onclick="window.location.href='https://ledagachloe7-arch.github.io/permis-de-conduire/'">
-      Ouvrir la page de consultation
-    </button>
-  </div>
-
-</div>
 </body>
 </html>
